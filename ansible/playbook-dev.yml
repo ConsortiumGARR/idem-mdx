@@ -1,0 +1,32 @@
+- name: Deployment IDEM-MDX
+  hosts: remote_hosts
+  become: yes
+  become_method: sudo
+  remote_user: vagrant 
+  roles:
+    - requirements
+    - setup
+  tasks:
+    - name: Prune unused volumes
+      ansible.builtin.shell: "echo y | docker volume prune"
+
+    - name: Run only BackEnd images
+      ansible.builtin.shell: "docker compose up -d"
+      args:
+        chdir: "/opt/idem-mdx-fe"
+      tags: [docker-be]
+
+    - name: Run only FrontEnd images
+      ansible.builtin.shell: "docker compose up -d"
+      args:
+        chdir: "/opt/idem-mdx-be"
+      tags: [docker-fe]
+
+    - name: Copy pubkey to host
+      ansible.builtin.shell: "docker cp {{ be_containername }}-crsync:/ssh/mdqsync-key.pub /home/mdqsync/.ssh/mdqsync.pub"
+      tags: [docker-be]
+
+    - name: Add pubkey to authorized keys
+      ansible.builtin.shell: "cat /home/mdqsync/.ssh/mdqsync.pub >> /home/mdqsync/.ssh/authorized_keys"
+      tags: [docker-be]
+

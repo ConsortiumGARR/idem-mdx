@@ -1,0 +1,37 @@
+/* Copyright (C) YOOtheme GmbH, YOOtheme Proprietary Use License (http://www.yootheme.com/license) */
+
+
+/*
+ *  Display tab items as flex-items on medium screens
+ */
+
+ @media (min-width: 768px) {
+
+    ul.tm-tab-fullheight {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+    }
+
+    ul.tm-tab-fullheight > li { flex: 1 1 0%; }
+
+}
+
+.tm-tabs .uk-dropdown,
+.tm-tabs .uk-tab-responsive.uk-active {
+    width: 100%;
+    border: none;
+}
+
+.tm-tabs .uk-dropdown h3 {
+    word-break: break-word;
+    white-space: initial;
+}
+
+.tm-tabs .uk-dropdown { margin: 0; }
+
+.tm-tabs .uk-tab > li { cursor: pointer; }

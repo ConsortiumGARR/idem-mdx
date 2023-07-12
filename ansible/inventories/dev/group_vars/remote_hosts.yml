@@ -1,0 +1,38 @@
+# Variables for Ansible Playbook
+hosts: all #INSERT HOSTS
+deploy_part: all #It can be "be","fe" or "all"
+deploy_type: dev
+ip_cnode: 192.168.56.10 #IP HOST
+location: local
+
+# Variables for docker-compose
+image_prefix: mdx-
+be_containername: "mdx-be-{{ location }}" #CONTAINER NAME
+fe_containername: "mdx-fe-{{ location }}" #CONTAINER NAME
+
+#BE
+pyff_version: dev #INSERT PYFF VERSION
+cr_version: dev #INSERT CRON RSYNC VERSION
+pyff_loglevel: INFO   
+mdx_certname: pyff-dev.crt
+ssh_public_key: mdqsync-dev.pub
+ssh_priv_key: mdqsync-dev
+
+# Hosts to RSYNC
+rsync_host1_IP: 192.168.56.10
+rsync_host1_NAME: host2rsync
+rsync_host2_IP:
+rsync_host2_NAME:
+rsync_host3_IP:
+rsync_host3_NAME:
+
+#FE
+nginx_version: dev #INSERT NGINX VERSION
+nginx_loglevel: info
+nginx_certname: mdx-dev.crt
+nginx_keyname: mdx-dev.key
+servername: localhost 
+
+# FOLDER NAME
+be_folder: mdx-be 
+fe_folder: mdx-fe

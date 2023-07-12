@@ -1,0 +1,176 @@
+{# Import the theme's layout. #}
+{% extends "!layout.html" %}
+
+{%- block htmltitle %}
+<title>Documentazione IDEM MDX</title>
+{%- endblock %}
+
+{%- block extrahead %}
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="/_static/www.servizi.garr.it/templates/yoo_sun/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+<link href="/_static/style.css" rel="stylesheet">
+<script src="/_static/www.servizi.garr.it/media/template/bootstrap.min-1fa3a7a4.js%3F40cc947fab0e5270673679291373f3f6"></script>
+<script src="/_static/www.servizi.garr.it/media/widgetkit/uikit2-04f29337.js"></script>
+<script src="/_static/www.servizi.garr.it/media/widgetkit/wk-scripts-b6f8e66e.js"></script>
+
+<link rel="stylesheet" href="/_static/www.servizi.garr.it/media/template/bootstrap-4ed441fa.css">
+<link rel="stylesheet" href="/_static/www.servizi.garr.it/media/template/theme-a2b5897a.css">
+<script src="/_static/www.servizi.garr.it/media/template/theme-ba542888.js"></script>
+
+<!-- Matomo -->
+<script type="text/javascript">
+    var _paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function () {
+        var u = "https://webanalytics.garr.it/";
+        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+        _paq.push(['setSiteId', '11']);
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+    })();
+</script>
+<noscript>
+    <p><img src="https://webanalytics.garr.it/matomo.php?idsite=11&amp;rec=1" style="border:0;" alt="" /></p>
+</noscript>
+<!-- End Matomo Code -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#doc-menu-toggle").click(function () {
+            $("#doc-menu").fadeToggle("slow").toggleClass("uk-hidden-small");;
+        });
+    });
+</script>
+
+{% endblock %}
+
+{%- block content %}
+
+{%- if pagename == 'index' and theme_index_template %}
+{% include theme_index_template %}
+{%- else %}
+
+<div class="tm-page">
+
+    <div class="tm-container uk-container uk-container-center tm-container-large">
+
+        <!-- inizio sticky menu  -->
+        <div class="uk-sticky-placeholder" style="height: 95px; margin: 0px;">
+            <div data-uk-sticky="" id="sticky-menu" style="margin: 0px;" class="">
+                <div class="tm-dropdown-overlay uk-position-relative" data-uk-dropdown-overlay="{cls:'tm-dropdown-overlay uk-position-absolute uk-width-1-1'}">
+                    <nav id="tm-navbar" class="tm-navbar uk-navbar uk-clearfix">
+
+                        <div class="uk-visible-large">
+                            <a class="uk-navbar-brand uk-float-left" href="https://www.idem.garr.it">
+                                <img src="/_static/images/idemlogo.png" alt="IDEM GARR AAI"
+				title="IDEM GARR AAI">
+                            </a>
+
+                            <div class="uk-float-left">
+                                <ul class="uk-navbar-nav uk-hidden-small">
+                                     <li class="uk-parent" data-uk-dropdown="{'preventflip':'y'}" 
+					aria-haspopup="true" aria-expanded="false"><a 
+				        href="../index.html">Home</a></li>
+				     <li class="uk-parent" data-uk-dropdown="{'preventflip':'y'}" 
+					aria-haspopup="true" aria-expanded="false"><a 
+				        href="https://www.idem.garr.it/">IDEM</a></li>
+                                     <li class="uk-parent" data-uk-dropdown="{'preventflip':'y'}" 
+					 aria-haspopup="true" aria-expanded="false"><a 
+				         href="https://wiki.idem.garr.it">Wiki IDEM</a></li>
+                                     <li class="uk-parent" data-uk-dropdown="{'preventflip':'y'}" 
+				 	 aria-haspopup="true" aria-expanded="false"><a 
+				         href="https://www.idem.garr.it/contatti">Contatti</a></li>
+				</ul>
+                            </div>
+
+			    <!--  <div class="search_bar">
+				<input type="text" name="search" value="search">
+			    </div> -->
+
+                        </div>
+
+                        <a href="#" id="doc-menu-toggle" 
+				class="uk-navbar-toggle uk-hidden-large uk-navbar-flip"></a>
+                        
+                    </nav>
+                    <div class="uk-dropdown-overlay tm-dropdown-overlay uk-position-absolute uk-width-1-1" style="display: block; height: 0px;"></div>
+                </div>
+            </div>
+	</div>
+        <!-- chiusura sticky menu  -->
+        <!-- inizio resto pagina  -->
+        <div class="tm-container-background" id="restopagina">
+            <div id="tm-middle" class="tm-middle uk-grid uk-grid-collapse" data-uk-grid-match="">
+
+                <div class="tm-main uk-width-medium-1-1 uk-grid-collapse">
+
+
+                    <main id="tm-content" class="tm-content uk-panel uk-panel-space">
+                        <article class="uk-article">
+                            <div class="uk-grid">
+                                {%- block sidebar1 %}
+                                <div class="uk-width-medium-1-4 uk-hidden-small" id="doc-menu">
+                                    <div class="sphinxsidebar">
+                                        {%- if sidebars != None %}
+                                        {#- new style sidebar: explicitly include/exclude templates #}
+                                        {%- for sidebartemplate in sidebars %}
+                                        {%- include sidebartemplate %}
+                                        {%- endfor %}
+                                        {% else %}
+                                        {% include "logo-text.html" %}
+                                        {% include "globaltoc.html" %}
+                                        {% include "searchbox.html" %}
+                                        {%- endif %}
+                                    </div>
+                                </div>
+                                {% endblock %}
+                                <div class="uk-width-medium-3-4 uk-width-small-1-1">
+                                    {% block body %} {% endblock %}
+
+                                    {%- block bottom_rel_links %}
+                                    {% if prev or next %}
+                                    <div class="footer-relations row p-4">
+                                        {% if prev %}
+                                        <div class="pull-left col-md-6">
+                                            <a class="uk-button uk-button-large uk-button-primary" 
+					       href="{{ prev.link|e }}"
+                                               title="{{ _('previous chapter')}} (use the left arrow)">
+					       <i class="uk-icon-chevron-left"></i>
+                                                {{ prev.title }}</a>
+                                        </div>
+                                        {% endif %}
+
+                                        {%- if next and next.title != '&lt;no title&gt;' %}
+                                        <div class="pull-right col-md-6 text-right ">
+                                            <a class="uk-button uk-button-large uk-button-primary" 
+					       href="{{ next.link|e }}" 
+					       title="{{ _('next chapter')}} (use the right arrow)">{{
+                                                next.title }} <i class="uk-icon-chevron-right"></i></a>
+                                        </div>
+                                        {%- endif %}
+                                    </div>
+                                    <div class="clearer"></div>
+                                    {% endif %}
+                                    {%- endblock %}
+                                </div>
+                            </div>
+                        </article>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{%- endif %}
+{%- endblock %}
+
+{% block footer %}
+
+{% endblock %}

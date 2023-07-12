@@ -1,0 +1,36 @@
+html, body {
+    height: 100%  !important;
+    background-color: #e9e8ed  !important;
+}
+
+body {
+    background-color: #e9e8ed;
+    background-image: url(/_static/images/s04-grigio.jpg) !important;
+    background-position: 0% 0% !important;
+    background-repeat: no-repeat !important;
+}
+
+
+
+h1 {
+    font-size: 38px;
+    padding: 10px 00px 10px 10px;
+    margin: 20px 0 35px -45px;
+    background-color: aliceblue;
+    width: 100%;
+    border-bottom: 1px solid #D8E4EF;
+}
+
+p {
+    text-align: left;
+}
+
+.search_bar input[type="text"] {
+    position:absolute;
+    top: 30%;
+    width: 25%;
+    left: 70%;
+    background-color:white;
+    color:grey;
+}
+

@@ -1,0 +1,38 @@
+- name: Remove old version of docker
+  ansible.builtin.apt: 
+    name: "{{ item }}" 
+    state: absent
+    force_apt_get: yes
+  loop:
+    - docker
+    - docker.io
+    - containerd
+    - runc
+
+- name: Remove all Docker folders
+  ansible.builtin.file:
+    path: "/var/lib/{{ item }}"
+    state: absent
+  loop:
+    - docker
+    - containerd
+
+- name: Download the installation script
+  ansible.builtin.shell: curl -fsSL https://get.docker.com -o get-docker.sh
+
+- name: Install Docker
+  ansible.builtin.shell: DRY_RUN=1 sudo sh ./get-docker.sh
+
+- name: Install Docker Compose
+  ansible.builtin.apt:
+    name: docker-compose-plugin
+    state: present
+    force_apt_get: yes
+
+- name: Post installation, Create docker group
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Post installation, Add user to group
+  ansible.builtin.shell: 'sudo usermod -aG docker vagrant && newgrp docker'

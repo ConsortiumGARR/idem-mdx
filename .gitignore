@@ -1,0 +1,28 @@
+.vagrant
+.vscode
+
+# emacs
+*~
+\#*\#
+
+# vi
+*.swp
+
+# Compiled python modules
+*.pyc
+
+# Tests artifacts
+.cache
+__pycache__
+
+# Python egg
+*.egg-info
+
+# venv
+venv
+
+# production environment
+idem-mdx-inventories/
+
+#Pubkey
+pubkey
