@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+    nginx:
+        image: "gitlab.dir.garr.it:4567/idem/idem-mdx/fe-nginx:{{ nginx_version }}"
+        container_name: "{{ fe_containername }}-nginx"
+        env_file:
+            - ".fe.env"
+        restart: unless-stopped
+        ports: 
+            - "8080:8080"
+            - "8444:8444"
+        volumes:
+            - "/opt/idem-mdq-data:/app/idem-mdq:ro"
+        logging:
+          driver: syslog
+          options:
+            syslog-address: "udp://{{ node_domain }}:514"
+            tag: "{{ '{{' }} .Name {{ '}}' }}"
+
+    nginx-exporter:
+        image: "nginx/nginx-prometheus-exporter:{{ prometheus_version }}"
+        container_name: "{{ fe_containername }}-prometheus"
+        restart: unless-stopped
+        command:
+            - "-nginx.scrape-uri=http://{{ ip_cnode }}:8080/status"
+        ports:
+            - "9113:9113"
+        depends_on:
+            - "nginx" 

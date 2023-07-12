@@ -1,0 +1,27 @@
+- name: "Update cache & Full system update"
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: dist
+    cache_valid_time: 3600
+    force_apt_get: yes
+  tags: [never, install-docker]
+
+- name: install required packages
+  ansible.builtin.apt: 
+    name: "{{ item }}" 
+    state: present 
+    force_apt_get: yes 
+    install-recommends: no
+  with_items:
+    - git
+    - vim
+    - wget
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
+  tags: [never, install-docker]
+
+- name: "Install Docker & Docker compose"
+  import_tasks: install-docker.yml
+  tags: [never, install-docker]

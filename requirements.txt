@@ -1,0 +1,9 @@
+sphinx
+sphinx_rtd_theme
+recommonmark
+paramiko
+pyyaml
+jinja2
+markupsafe
+proxmoxer
+requests

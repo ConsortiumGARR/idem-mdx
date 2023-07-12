@@ -1,0 +1,88 @@
+- name: Deployment IDEM-MDX - BE Staging 
+  hosts: 
+    - ct1-n1
+  become: yes
+  become_method: sudo
+  remote_user: debian 
+  roles:
+    - requirements
+    - setup
+  tasks:
+    - name: Prune unused volumes
+      ansible.builtin.shell: "echo y | docker volume prune"
+      tags: [docker-be]
+
+    - name: Run BackEnd image
+      ansible.builtin.shell: "docker-compose up -d"
+      args:
+        chdir: "/opt/{{ be_folder }}"
+      tags: [docker-be]
+
+    - name: Decipher private key - PYFF
+      ansible.builtin.shell: "docker exec -i {{ be_containername }}-pyff openssl rsa -in /certs/{{ mdx_encrypted_key }} --passin pass:{{ pyff_passphrase }} -out /certs/{{ mdx_priv_key }}"
+      notify: restart-pyff
+      tags: [docker-be]
+
+    - name: Decipher private key - CRON_RSYNC
+      ansible.builtin.shell: "docker exec -i {{ be_containername }}-crsync openssl rsa -in /opt/idem_xml_to_jwt/{{ mdx_encrypted_key }} --passin pass:{{ pyff_passphrase }} -out /opt/idem_xml_to_jwt/{{ mdx_priv_key }}"
+      tags: [docker-be]
+
+    - name: Copy pubkey to host
+      ansible.builtin.shell: "docker cp {{ be_containername }}-crsync:/ssh/mdqsync-key.pub /home/mdqsync/.ssh/mdqsync.pub"
+      tags: [docker-be]
+
+    ### Moved to Front end part ###
+    #- name: Add pubkey to authorized keys
+    #  ansible.builtin.shell: "cat /home/mdqsync/.ssh/mdqsync.pub >> /home/mdqsync/.ssh/authorized_keys"
+    #  tags: [docker-be]
+
+    - name: Grab pubkey from remote container
+      ansible.builtin.fetch:
+        src: /home/mdqsync/.ssh/mdqsync.pub
+        dest: ./pubkey
+        flat: true
+    
+  handlers:
+    - name: Restart Pyff container
+      ansible.builtin.shell: "docker restart {{ be_containername }}-pyff"
+      listen: restart-pyff
+
+- name: Deployment IDEM-MDX - FE Staging 
+  hosts: 
+    - remote_hosts
+  become: yes
+  become_method: sudo
+  remote_user: debian 
+  roles:
+    - requirements
+    - setup
+  tasks:
+    - name: Prune unused volumes
+      ansible.builtin.shell: "echo y | docker volume prune"
+      tags: [docker-fe]
+
+    - name: Run FrontEnd image
+      ansible.builtin.shell: "docker-compose up -d"
+      args:
+        chdir: "/opt/{{ fe_folder }}"
+      tags: [docker-fe]
+
+    - name: Decipher private key - NGINX
+      ansible.builtin.shell: "docker exec -i {{ fe_containername }}-nginx openssl rsa -in /etc/nginx/certs/{{ nginx_encrypted_key }} --passin pass:{{ nginx_passphrase }} -out /etc/nginx/certs/{{ nginx_priv_key }}"
+      notify: restart-nginx
+      tags: [docker-fe]
+
+    - name: Copy the pubkey to all hosts
+      ansible.builtin.copy:
+        src: ./pubkey
+        dest: /home/mdqsync/.ssh/mdqsync.pub
+      tags: [docker-fe]
+
+    - name: Add pubkey to authorized keys
+      ansible.builtin.shell: "cat /home/mdqsync/.ssh/mdqsync.pub >> /home/mdqsync/.ssh/authorized_keys"
+      tags: [docker-fe]
+
+  handlers:
+    - name: Restart NGINX container
+      ansible.builtin.shell: "docker restart {{ fe_containername }}-nginx"
+      listen: restart-nginx

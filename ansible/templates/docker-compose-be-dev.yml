@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+    pyff:
+        image: "{{ image_prefix }}pyff:{{ pyff_version }}"
+        container_name: "{{ be_containername }}-pyff"
+        env_file:
+            - ".be.env"
+        restart: unless-stopped
+        volumes:
+            - "idem-mdq:/opt/pyff"
+    crsync:
+        image: "{{ image_prefix }}crsync:{{ cr_version }}"
+        container_name: "{{ be_containername }}-crsync"
+        env_file:
+            - ".be.env"
+        restart: always
+        volumes:
+            - "idem-mdq:/opt/pyff"
+        depends_on:
+            - "pyff"
+
+volumes:
+    idem-mdq:

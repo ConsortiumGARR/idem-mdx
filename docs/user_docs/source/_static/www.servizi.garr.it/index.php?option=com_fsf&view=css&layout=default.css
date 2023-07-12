@@ -1,0 +1,1645 @@
+/* There is PHP code in this file that is parsed to get various CSS Settings. */
+
+/* ------------------ */
+/* Global Page Styles */
+/* ------------------ */
+
+/* All main pages container */
+.fsf_main
+{
+
+}
+
+/* All popup pages container */
+.fsf_popup
+{
+
+}
+.fsf_main div {
+margin: 0;
+}
+
+.fsf_please_wait
+{
+    padding: 30px;
+    text-align: center;
+    color: #AAAAAA;
+    font-size: 150%;
+}
+/* ----------------- */
+/* FSF Table styling */
+/* ----------------- */
+table.fsf_table {
+	border-top: 1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+	margin:0px;
+	padding:0px;
+}
+table.fsf_table th {
+	border-bottom: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	background-color: #f0f0ff;
+	padding: 3px 8px 3px 8px;
+	text-align: right;
+}
+table.fsf_table td {
+	border-bottom: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	padding: 3px 8px 3px 8px;
+}
+table.fsf_table td.noright {
+	border-bottom: 1px solid #e0e0e0;
+	border-right: none;
+	padding: 3px 8px 3px 8px;
+}
+
+table.fsf_table td.fsf_table_hspacer 
+{
+    width: 16px;
+    border-bottom: none;
+}
+
+/* ------------- */
+/* General stuff */
+/* ------------- */
+
+
+/* Clear div */
+div.fsf_clear {
+	clear: both;
+}
+
+div.fsf_spacer 
+{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.fsf_must_have_field
+{
+    color: Red;
+}
+.tool-tip {
+   max-width: 500px !important;
+}
+/* ----------------------- */
+/* Knowledge base Article */
+/* ----------------------- */
+
+/* Knowledge base file entry container */
+table.fsf_kb_files{
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+div.fsf_kb_files_div {
+    padding:8px;
+}
+
+/* Knowledge base file entry title */
+td.fsf_kb_files_title {
+    font-size:120%;
+    color: #001c54;
+}
+
+/* --------- */
+/* FAQ Stuff */
+/* --------- */
+
+.fsf_tooltip
+{
+    max-width: 300px;
+    border: 1px solid #000;
+    padding: 6px;
+	background-color: #f0f0f0;
+	margin-top: 4px;
+	z-index: 500;
+}
+
+.fsf_tooltip_wide
+{
+    max-width: 700px;
+    border: 1px solid #000;
+    padding: 6px;
+	background-color: #f0f0f0;
+	z-index: 500;
+}
+
+.fsf_tooltip h4
+{
+    font-size: 15px;
+   font-weight:bold;
+}
+.fsf_tooltip .fsj_gt_inner
+{
+    text-align: left;
+    font-size: 13px;
+}
+
+.fsf_faq_question_tip
+{
+    font-size: 15px;
+    font-weight:bold;
+}
+.fsf_faq_answer_tip
+{
+    text-align: left;
+    line-height: normal;
+    font-size: 13px;
+}
+.fsf_faq_answer_tip p
+{
+    line-height: normal;
+}
+/* -------------- */
+/* FAQ Categories */
+/* -------------- */
+
+/* list of categories container */
+div.fsf_faq_catlist {
+
+}
+
+/* category container */
+div.faq_category {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+}
+
+/* category title */
+div.faq_category_head {
+	font-size: 120%;
+}
+div.faq_category_head a.fsf_highlight
+{
+	display: block;
+	padding: 6px 2px 6px 2px;
+}
+div.faq_category_head a.fsf_highlight:hover {
+	background-color: #f0f0f0;
+}
+
+/* description text in a cetegory */
+div.faq_category_desc {
+
+}
+
+/* image within a category */
+div.faq_category_image {
+	padding-right: 9px;
+	padding-bottom: 2px;
+	float:left;
+}
+
+/* ------------------------ */
+/* FAQ Category list module */
+/* ------------------------ */
+
+/* category container */
+div.faq_mod_category {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+	padding: 3px;
+}
+div.faq_mod_category_cont{
+	border-bottom: 1px solid #e0e0e0;
+}
+/* category title */
+div.faq_mod_category_head {
+	font-size: 110%;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+/* image within a category */
+div.faq_mod_category_image {
+	padding-right: 9px !important;
+	padding-bottom: 2px;
+	float:left;
+}
+
+/* empty footer div at end of a category */
+div.faq_category_footer {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+}
+
+/* when multiple colums of categories listed, normal column style */
+td.fsf_faq_cat_col {
+	border-left: 1px solid #e0e0e0;
+}
+
+/* when multiple colums of categories listed, style for the 1st column*/
+td.fsf_faq_cat_col_first {
+
+}
+
+/* list of faqs when listing within multiple categories */
+div.faq_category_faqlist {
+	clear:both;
+	padding-left: 70px;
+}
+
+/* -------- */
+/* FAQ FAqs */
+/* -------- */
+
+/* list of faqs container */
+div.fsf_faqs {
+	clear:both;
+	padding-left: 70px;
+}
+
+/* FAQ container */
+div.fsf_faq {	
+	/*padding-top: 4px;
+	padding-bottom: 4px;*/
+	
+	border-top-style: solid;
+	border-top-color: #e0e0e0;
+	border-top-width: 1px;	
+}
+
+/* FAQs all on one page wrapper */
+div.fsf_faq_inline {
+	margin-top:10px;
+}
+
+/* List of questions with no answers, row highlight */
+div.fsf_faq a.fsf_highlight
+{
+	display: block;
+	padding: 6px 2px 6px 2px;
+}
+div.fsf_faq a.fsf_highlight:hover {
+	background-color: #f0f0f0;
+}
+
+/* Standard question text */
+div.fsf_faq_question {
+	font-size: 120%;
+}
+
+/* Standard FAQ answer */
+div.fsf_faq_answer {
+	padding-bottom: 4px;
+	border-bottom-style: solid;
+	border-bottom-color: #e0e0e0;
+	border-bottom-width: 1px;
+	padding-left: 10px;	
+	/*font-size: 120%;*/
+}
+
+div.fsf_faq_tags 
+{
+    padding-bottom: 3px;
+}
+
+div.fsf_faq_tags span
+{
+    font-weight: bold;
+}
+
+/* Answer when shown within a tooltip */
+div.fsf_faq_answer_tip {
+	padding-left: 10px;	
+}
+
+/* Answer when only single answer on a page */
+div.fsf_faq_answer_single {
+	padding-left: 10px;	
+}
+
+/* Bordering around the popup windows content */
+div.fsf_popup_gap {
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	overflow: hidden;
+}
+
+/* click for more.. text when in tooltip */
+div.fsf_faq_more {
+	text-align: right;
+}
+
+
+div.fsf_faq_featured
+{
+    float: right;
+    margin: 3px;
+    border: 1px solid #ccc;
+    padding-right:  3px;
+    padding-left: 3px;
+    padding-bottom: 3px;
+    padding-top: 1px;
+} 
+
+div.fsf_faq_featured img
+{
+    position: relative;
+    top: 2px;
+    padding-right: 2px;
+}
+/* --------------- */
+/* Knowledge base */
+/* --------------- */
+
+/* Search container */
+div.fsf_kb_search {
+	width: 100%;
+	border-bottom-style: solid;
+	border-bottom-color: #e0e0e0;
+	border-bottom-width: 1px;
+}
+
+/* Separator when main page is side by side */
+td.fsf_sidebyside_sep {
+	border-right-style: solid;
+	border-right-color: #e0e0e0;
+	border-right-width: 1px;
+}
+
+/* Main page side by side table */
+table.fsf_sidebyside {
+
+}
+
+/* Product list container */
+div.fsf_kb_prodlist {
+
+}
+
+div.fsf_kb_prodlist_header {
+	clear:both;
+	font-size:140%;
+	width: 100%;
+	padding: 8px;
+}
+
+/* Category list container */
+div.fsf_kb_catlist {
+
+}
+
+/* Product container */
+div.kb_product {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+}
+
+/* Product title */
+div.kb_product_head {
+	font-size: 120%;
+}
+div.kb_product_head a.fsf_highlight
+{
+	display: block;
+	padding: 6px 2px 6px 2px;
+}
+div.kb_product_head a.fsf_highlight:hover {
+	background-color: #f0f0f0;
+}
+
+/* image within a Product */
+div.kb_product_image {
+	padding-right: 9px;
+	padding-bottom: 2px;
+	float:left;
+}
+
+/* category container */
+div.kb_category {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+}
+
+/* category title */
+div.kb_category_head {
+	font-size: 120%;
+}
+div.kb_category_head a.fsf_highlight
+{
+	display: block;
+	padding: 6px 2px 6px 2px;
+}
+div.kb_category_head a.fsf_highlight:hover {
+	background-color: #f0f0f0;
+}
+
+/* description text in a cetegory */
+div.kb_category_desc {
+
+}
+
+/* image within a category */
+div.kb_category_image {
+	padding-right: 9px;
+	padding-bottom: 2px;
+	float:left;
+}
+
+/* empty footer div at end of a category */
+div.kb_category_footer {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+}
+
+/* list of articles when listing within multiple categories */
+div.kb_category_artlist {
+	clear:both;
+	padding-left: 70px;
+}
+
+div.fsf_kb_catlist_header {
+	clear:both;
+	font-size:140%;
+	width: 100%;
+	padding: 8px;
+}
+
+/* styling for rating block */
+div.fsf_kb_rate {
+	float:right;
+	padding-left:6px;
+	padding-bottom:6px;
+}
+div.fsf_kb_rate_head {
+	font-size:120%;
+	border-bottom:1px solid #e0e0e0;
+	padding-bottom: 4px;
+}
+div.fsf_kb_rate_print {
+	font-size:120%;
+	border-bottom:1px solid #e0e0e0;
+	padding-top: 4px;
+}
+div.fsf_kb_rate_line {
+	border-left:1px solid #e0e0e0;
+	border-right:1px solid #e0e0e0;
+	border-bottom:1px solid #e0e0e0;
+	cursor: pointer;
+}
+div.fsf_kb_rate_top {
+	border-top:1px solid #e0e0e0;
+}
+span.fsf_kb_rate_text {
+	font-size:110%;
+	position:relative;
+	/*top: -11px;*/
+}
+
+/* List of questions with no answers, row highlight */
+div.fsf_kb_rate_line a.fsf_highlight
+{
+	display: block;
+	padding-right: 4px;
+	padding-top: 4px;
+	padding-left: 4px;
+	text-decoration: none;
+}
+div.fsf_kb_rate_line a.fsf_highlight:hover {
+	background-color: #f0f0f0;
+}
+div.fsf_kb_applies {
+	font-size:120%;
+	padding:8px;
+}
+div.fsf_kb_related {
+	padding-bottom:8px;
+}
+div.fsf_kb_related_div {
+	font-size:120%;
+	padding-top:8px;
+	padding-left:8px;
+}
+
+div.fsf_kb_views
+{
+	font-size:120%;
+	padding:8px;
+}
+
+img.fsf_kb_view_image
+{
+	position:relative;
+	top:3px;
+}
+
+span.fsf_kb_art_extra
+{
+	float:right;
+	margin-left: 2px;
+}
+span.fsf_kb_art_extra_img
+{
+	float:right;
+	margin-left: 2px;
+    position: relative;
+    top: -2px;
+}
+
+img.fsf_kb_art_extra_image
+{
+	position:relative;
+	top:2px;
+}
+
+div.fsf_subcat_cont 
+{
+    padding-left: 70px;
+}
+
+/* ---------------- */
+/* comment add form */
+/* ---------------- */
+
+div.fsf_comment_add {
+}
+
+.fsf_comment_add_text {
+	border-top:1px solid #e0e0e0;
+	font-size:120%;
+	padding:4px;
+}
+div.fsf_comment_add table tr th {
+	text-align: right;
+}
+
+/* Product container */
+div.comment_product {
+	clear:left;
+	border-bottom: 1px solid #e0e0e0;
+}
+div.fsf_edit_comment
+{
+	border-bottom:1px solid #e0e0e0;
+	font-size:120%;
+	padding-bottom: 2px;
+}
+
+/* --------------- */
+/* comment listing */
+/* --------------- */
+
+div.fsf_comment {
+	padding: 8px;
+	clear:both;
+	border-top:1px solid #e0e0e0;
+}
+div.fsf_comment_name {
+	font-size: 110%;
+	width: 150px;
+}
+div.fsf_comment_left {
+	float:left;
+}
+div.fsf_comment_website {
+	width: 150px;
+}
+div.fsf_comment_comment 
+{
+    padding-left: 153px;
+}
+div.fsf_comment_commentmod
+{
+}
+div.fsf_comment:first-child
+{
+    border-top: none !important;
+}
+div.fsf_comment_wait {
+	font-size: 120%;
+	text-align: center;
+}
+div.fsf_comment_approval {
+	font-size: 120%;
+	text-align: center;
+}
+
+div.fsf_no_results {
+	font-size: 120%;
+	padding: 16px;
+}
+div.fsf_invalid_captcha {
+	color: red;
+}
+div.fsf_kb_mod_this
+{
+    float:right;
+}
+img.fsf_comment_count_img 
+{
+    position: relative;
+    top:3px;
+}
+
+/* ----------------- */
+/* Support main page */
+/* ----------------- */
+
+table.fsf_support_main {
+}
+
+table.fsf_support_main td {
+	border:1px solid #e0e0e0;
+	text-align: center;
+	padding: 6px;
+}
+
+div.fsf_support_title {
+	font-size: 120%;
+	height: 40px;
+}
+
+div.fsf_support_desc {
+	font-size:100%;
+}
+
+div.fsf_support_title_list {
+	font-size: 120%;
+}
+div.fsf_support_desc_list {
+
+}
+
+div.fsf_support_image_list {
+	padding-right: 9px;
+	padding-bottom: 2px;
+	float:left;
+}
+
+td.fsf_support_row_list
+{
+	padding-top:4px;
+	border-bottom:1px solid #e0e0e0;
+}
+
+span.fsf_support_fieldname
+{
+    font-weight:bold;
+}
+/* -------------------- */
+/* Announcements module */
+/* -------------------- */
+div.fsf_mod_announce {
+	border-bottom:1px solid #e0e0e0;
+	padding-top:2px;
+	padding-bottom:4px;
+}
+div.fsf_mod_announce_title {
+	font-size: 120%;
+	text-align: center;
+}
+div.fsf_mod_announce_subtitle {
+}
+div.fsf_mod_announce_date {
+	font-size: 80%;
+	text-align: center;
+	font-style:italic; 
+}
+div.fsf_mod_announce_body {
+}
+div.fsf_mod_announce_more {
+	font-size: 80%;
+	text-align: right;
+}
+div.fsf_mod_announce_all {
+	/*font-size: 120%;
+	text-align: center;*/
+}
+
+/* ----------------------- */
+/* Announcements main page */
+/* ----------------------- */
+div.fsf_announce {
+	border-bottom:1px solid #e0e0e0;
+	padding-top:2px;
+	padding-bottom:4px;
+}
+div.fsf_announce_date {
+	float:right;
+	font-size: 120%;
+	padding-top:12px;
+}
+div.fsf_announce_body {
+	clear:both;
+}
+div.fsf_announce_more {
+	text-align: right !important;
+}
+
+/* ----------------------- */
+/* Viewing an announcement */
+/* ----------------------- */
+
+div.fsf_main_announce {
+}
+div.fsf_main_announce_date {
+	padding-bottom: 12px;
+}
+div.fsf_main_announce_body {
+}
+
+
+/* --------------------- */
+/* Pagination formatting */
+/* --------------------- */
+
+.fsf_list-footer {
+	position:relative;
+}
+
+.fsf_counter {
+	float:left;
+	position:absolute;
+	width:140px;
+	display:inline;
+	left:0px;
+	top:0px;
+	padding-top: 5px;
+}
+
+.fsf_limit {
+	float:right;
+	display:inline;
+	position:absolute;
+	right:0px;
+}
+
+.fsf_pagination {
+	text-align:center !important;
+	padding-top: 5px;
+}
+
+/* ---------------- */
+/* Testimonials mod */
+/* ---------------- */
+
+div.fsf_mod_test {
+	border-bottom: 1px solid #e0e0e0;
+	margin-bottom: 4px;
+	padding-bottom: 4px;
+}
+div.fsf_mod_test_title {
+	font-size: 120%;
+}
+div.fsf_mod_test_body {
+}
+div.fsf_mod_test_more {
+	text-align: right;
+	float:right;
+}
+div.fsf_mod_test_name {
+	text-align: right;
+}
+div.fsf_mod_test_all {
+	text-align: right;
+}
+div.fsf_mod_test_add {
+	text-align: right;
+}
+
+/* ----------------- */
+/* Testimonials page */
+/* ----------------- */
+div.fsf_test {
+	padding-bottom: 5px;
+	padding-left: 84px;
+}
+div.fsf_test_title {
+	border-top: 1px solid #e0e0e0;
+	padding-top: 5px;
+	font-size: 120%;
+}
+div.fsf_test_body {
+}
+div.fsf_test_name {
+	text-align: right;
+}
+div.fsf_test_mod_this
+{
+    float:right;
+}
+
+/* ----------------------- */
+/* moderation */
+/* ----------------------- */
+
+.fsf_moderate
+{
+}
+
+.fsf_moderate_ident
+{
+}
+
+.fsf_moderate_ident_title
+{
+    font-size: 130%;
+    padding-top: 8px;
+    padding-bottom: 4px;
+}
+
+.fsf_moderate_ident_content
+{
+    padding-left: 20px;
+}
+
+.fsf_moderate_article
+{
+}
+
+.fsf_moderate_article_title
+{
+    font-size: 115%;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.fsf_moderate_article_content
+{
+    padding-left: 20px;
+}
+
+/* ----------------------- */
+/* Support Ticket Creation */
+/* ----------------------- */
+
+
+/* Select a product */
+div.fsf_ticket_prod {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+	padding: 3px;
+	cursor: pointer;
+	margin: 0px;
+}
+
+div.fsf_ticket_prod_foot {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+	padding: 3px;
+}
+
+div.fsf_ticket_prod_head {
+	font-size: 120%;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+div.fsf_ticket_prod_image {
+	padding-right: 9px;
+	padding-bottom: 2px;
+}
+
+div.fsf_ticket_prod_desc {
+
+}
+
+div.fsf_unreg_msg {
+	font-size: 120%;
+	border: 1px solid #e0e0e0;
+	background-color: #f0f0f0;
+	padding:8px;	
+}
+
+div.prod_search_res {
+	border-bottom: 1px solid #e0e0e0;
+	margin: 0px;
+}
+
+/* Select a department */
+div.fsf_ticket_dept {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+	padding: 3px;
+	cursor: pointer;
+}
+
+div.fsf_ticket_dept_foot {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+	padding: 3px;
+}
+
+div.fsf_ticket_dept_head {
+	font-size: 120%;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+div.fsf_ticket_dept_image {
+	padding-right: 9px;
+	padding-bottom: 2px;
+	float:left;
+}
+
+div.fsf_ticket_dept_desc {
+
+}
+div.fsf_ticket_dept_prod {
+	font-size: 120%;
+	padding-bottom: 8px;
+}
+
+/* New ticket page */
+table.fsf_ticket_msgsheader 
+{
+    border: none;
+}
+table.fsf_ticket_msgsheader tr, table.fsf_ticket_msgsheader td 
+{
+    border: none;
+}
+table.fsf_ticket_msgheader 
+{
+    border: none;
+}
+table.fsf_ticket_msgheader tr, table.fsf_ticket_msgheader td 
+{
+    border: none;
+}
+
+div.fsf_ticket_section {
+	font-size: 140%;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	border-top: 1px solid #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
+}
+div.fsf_ticket_foot {
+	clear:left;
+	border-top: 1px solid #e0e0e0;
+	padding: 3px;
+	margin-top: 10px;
+}
+div.fsf_ticket_error {
+	color: red;
+	font-weight: bold;
+}
+td.fsf_ticket_title {
+	font-weight: bold;
+	border-right: 1px solid #e0e0e0;
+	/*cursor: pointer;*/
+	padding-top: 2px; 
+	padding-bottom: 0px;
+	padding-left: 2px;
+	border-top: 1px solid #e0e0e0;
+}
+
+td.fsf_ticket_br
+{
+	border-right: 1px solid #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+table.fsf_ticket_list {
+	border-left: 1px solid #e0e0e0;
+}
+table.fsf_ticket_list div {
+	margin: 0px;
+}
+table.fsf_ticket_list th {
+	border-top: 1px solid #e0e0e0;
+	border-bottom: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+}
+td.fsf_ticket_row {
+	border-bottom: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	border-top: 1px solid #e0e0e0;
+	/*cursor: pointer;*/
+}
+table.fsf_ticket_messages {
+	border-top: 1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+}
+td.fsf_ticket_message_head {
+	font-size: 120%;
+	border-bottom: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	/*background-color: #f0f0f0;*/
+}
+td.fsf_ticket_message_head_user 
+{
+    background-color: 0;
+}
+
+td.fsf_ticket_message_head_admin 
+{
+    background-color: 0;
+}
+
+td.fsf_ticket_message_head_private 
+{    
+    background-color: 0;
+}
+td.fsf_ticket_message_head_info
+{
+    padding:3px;
+ 	border-bottom: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+}
+table.fsf_ticket_message_head_info
+{
+ 	border-left: 1px solid #e0e0e0;
+	border-top: 1px solid #e0e0e0;
+}
+
+table.fsf_ticket_messages_info{
+	border-bottom: 1px solid #e0e0e0;
+}
+td.fsf_ticket_messages_info_cont {
+	border-right: 1px solid #e0e0e0;
+	padding: 0px;
+}
+td.fsf_ticket_message_message {
+	border-bottom: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	padding: 4px;
+}
+td.fsf_ticket_message_user {
+	font-weight: bold;
+}
+.fsf_support_msg_audit
+{
+    display: none;
+}
+.fsf_support_msg_audit table
+{
+    border-bottom: 1px solid #e0e0e0;
+}
+.fsf_support_msg_audit_row
+{
+    background-color: #F0F0FF;
+}
+.fsf_support_msg_audit_row td
+{
+    padding: 3px;  
+}
+div.fsf_ticket_grouping
+{
+    font-size: 115%;
+    padding:2px;
+}
+
+table.fsf_ticket_attach {
+	border-top: 1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+}
+td.fsf_ticket_attach_file {
+	font-size: 120%;
+	border-bottom: 1px solid #e0e0e0;
+	background-color: #f0f0f0;
+}
+td.fsf_ticket_attach_filename {
+	font-size: 120%;
+	background-color: #f0f0f0;
+}
+td.fsf_ticket_attach_size {
+	font-size: 120%;
+	border-bottom: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	background-color: #f0f0f0;
+}
+td.fsf_ticket_attach_user {
+	font-weight: bold;
+	border-bottom: 1px solid #e0e0e0;
+}
+td.fsf_ticket_attach_date {
+	border-bottom: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+}
+
+.fsf_admin_create {
+	font-size:120%;
+}
+
+.fsf_admin_create_130 {
+	font-size:120%;
+	width: 130px;
+	float:left;
+}
+
+.fsf_admin_tags {
+	font-size:120%;
+	width: 130px;
+	float:left;
+	/*padding-top: 6px;*/
+}
+
+.fsf_admin_search {
+	font-size:120%;
+	width: 130px;
+	float:left;
+	padding-top: 5px;
+}
+.fsf_admin_search_adv {
+	font-size:120%;
+	width: 130px;
+	float:left;
+	padding-top: 7px;
+}
+
+.fsf_admin_create_sub {
+	padding-left:20px;
+}
+
+.fsf_admin_create_cont {
+	padding-bottom:5px;
+}
+
+div.fsf_ticket_login_error {
+	border: 1px solid #e0e0e0;
+	background: #f0f0f0;
+	font-size:130%;
+	padding: 10px;
+	margin-left:10px;
+	margin-right:10px;
+	margin-bottom:10px;
+}
+
+div.fsf_ticket_login_head {
+	font-size:160%;
+	padding-bottom : 10px;
+	padding-top: 10px;
+	
+}
+
+div.fsf_ticket_login_subtext {
+	padding-bottom : 10px;
+}
+
+div.fsf_ticket_nonefound {
+	font-size:130%;
+	padding:20px;
+	text-align:center;
+}
+
+div.fsf_ticket_tag
+{
+	background-color: #EAEAEA;
+	border: 1px solid #CCC;
+	font-size: 11px;
+	padding: 0px 3px 3px 1px;
+	float:left;
+	margin-bottom: 3px;
+	margin-right: 3px;
+	height:13px;
+	
+}
+
+.fsf_ticket_tag_text
+{
+    position: relative;
+    top: -1px;
+    
+}
+div.fsf_ticket_tag img
+{
+	left: 2px;
+	position: relative;
+	top: 1px;
+}
+.fsf_taglist
+{
+    position: absolute;
+    left: 0px;
+    top: 2px;
+    width: 130px;
+    background-color: White;
+    display: none;
+}
+
+.fsf_taglist_scroll
+{
+    max-height: 200px;
+    overflow: scroll;
+    overflow-x:hidden;
+}
+.fsf_taglist_inner
+{
+    border-left: none !important;
+    border-top: none !important;
+}
+.fsf_taglist_inner td
+{
+    border-right: none !important;
+}
+.tags_header
+{
+	font-size:120%;
+}
+.fsf_support_custom_edit
+{
+	font-size: 9pt;
+	height: 14px;
+}
+
+.tag_add_input
+{
+	font-size: 9pt;
+	height: 14px;
+	width: 84px;
+}
+.fsf_tags_div_inner
+{
+	border: 1px solid #e0e0e0;
+	padding: 3px;
+	background-color: white;
+	position: relative;
+	left: -3px;
+	top: -3px;
+}
+.fsf_tags_div
+{
+	position: absolute;
+	float: left;
+	display: none;
+	min-width: 150px;
+	background-color: #888888;
+	margin-left: 155px !important;
+}
+.fsf_tags_div_tag
+{
+	padding: 1px;
+}
+span.fsf_ticket_tag_large
+{
+	background-color: #EAEAEA;
+	border: 1px solid #CCC;
+	padding: 1px 3px 1px 1px;
+	padding-right: 3px;
+}
+
+span.fsf_ticket_tag_large img
+{
+	left: 2px;
+	position: relative;
+	top: 2px;
+}
+
+span.fsf_ticket_tag_large a 
+{ 
+	text-decoration:none 
+}
+div.fsf_signature
+{
+	padding: 8px;
+}
+
+.fsf_locked_warn
+{
+    color: red;
+    padding: 4px;
+    font-size: 120%;
+}
+
+.fsf_layout_preview
+{
+    width: 100%;
+    border: 1px solid red;
+    background-color: #ffc0c0;
+    text-align: center !important;
+    font-size: 150%;
+    padding: 4px;
+    margin: 4px;
+}
+/* --------- */
+/* tab stuff */
+/* --------- */
+div.ffs_tabs {
+	/*padding: 8px;
+	margin-bottom: 18px;
+	width: 100%;
+	border-bottom: 1px solid #e0e0e0;*/
+	padding-left: 4px !important;
+    margin-bottom: 18px !important;
+    width: 100%;
+    border-bottom: 1px solid #e0e0e0;
+    padding-right: 4px !important;
+    padding-top: 4px !important;
+    padding-bottom: 0px !important;
+}
+
+a.ffs_tab 
+{
+    white-space: nowrap;
+	/*margin: 4px;
+	padding: 5px 8px 8px 8px;
+	border-left: 1px solid #e0e0e0;
+	border-top: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	background-color: #ffffff;*/
+	margin: 0px !important;
+    padding: 5px 6px 6px 6px !important;
+    border-left: 1px solid #e0e0e0;
+	border-top: 1px solid #e0e0e0;
+	border-right: 1px solid #e0e0e0;
+	background-color: #ffffff;
+    line-height: 29px !important;
+}
+
+a.ffs_tab:hover {
+	background-color: #f0f0f0;
+	text-decoration: none;
+}
+
+a.fsf_tab_selected {
+	background-color: #f0f0f0 !important;
+	border-bottom: 1px solid #f0f0f0 !important;
+	font-weight: bold !important;
+}
+
+a.fsf_tab_selected:hover {
+	background-color: #f0f0f0;
+	text-decoration: none;
+}
+
+/* ------------------- */
+/* Support admin stuff */
+/* ------------------- */
+.fsf_support_admin_section {
+	/*padding-bottom:15px;*/
+	clear: both;
+}
+
+.fsf_moderate_status 
+{
+    clear: both;
+    padding-left: 20px;
+}
+/* -------- */
+/* Glossary */
+/* -------- */
+
+.fsf_glossary_tip-tip {
+    border: 1px solid #000;
+    padding: 6px;
+	background-color: #f0f0f0;
+}
+
+.fsf_glossary_tip-title {
+	font-size:110%;
+	padding-bottom: 6px;
+}
+
+.fsf_glossary_tip-text {
+	
+}
+
+a.fsf_glossary_word {
+	background: #EEEEEE;
+	text-decoration: none;
+}
+
+div.fsf_glossary_div {
+	border-bottom: 1px solid #e0e0e0;
+}
+div.fsf_glossary_title {
+	font-size: 120%;
+	font-weight: bold;
+	padding:5px;
+}
+div.fsf_glossary_text {
+	padding:5px;
+}
+
+div.fsf_glossary_letters 
+{
+    font-size: 130%;
+    text-align: center;
+}
+span.fsf_glossary_letter 
+{
+    /*padding: 4px;*/
+}
+
+span.fsf_glossary_letter a 
+{
+    text-decoration: none;
+}
+/* Main menu support panel */
+.fsf_menu_support_cont
+{
+	margin-left: auto;
+	margin-right: auto;
+}
+.fsf_menu_support 
+{
+    min-height: 52px;
+    margin: 0.7em !important;
+    padding: 0.3em;
+    background-color: #f0f0f0;
+	border: 1px solid #e0e0e0;
+}
+
+.fsf_menu_support_image
+{
+    float: left;
+    padding-right: 4px;
+}
+
+.fsf_menu_support_title
+{
+    float: left;
+    width: 150px;
+    font-size: 150%;
+    padding-top: 15px;
+}
+.fsf_menu_support_items
+{
+    font-size: 120%;
+    padding-left: 205px;
+}
+
+/* ticket attachments within messages */
+.fsf_ticket_message_attach
+{
+    padding: 3px;
+}
+.fsf_ticket_message_attach img
+{
+    position: relative;
+    top: 4px;
+}
+
+/* Support module */
+.fsf_module_support_title
+{
+    font-size: 120%;
+    padding-bottom: 4px;
+    padding-top: 6px;
+}
+
+.fsf_module_support_item
+{
+    padding-left: 12px;
+}
+
+.fsf_tab_image
+{
+    padding-right: 3px;
+    position: relative;
+    top: 3px;
+}
+.fsf_support_main_image
+{
+    position: relative;
+    padding-right: 3px;
+    top: 4px;
+}
+
+.fsf_content_toolbar
+{
+	height: 62px;  
+}
+.fsf_content_toolbar_item
+{
+    float: right;
+    width: 60px;
+    padding: 3px;
+    margin-left:3px !important;
+    text-align: center !important;
+	border: 1px solid #e0e0e0;
+	cursor:pointer;
+}
+.fsf_content_toolbar_item:hover
+{
+    background-color: #f0f0f0;
+}
+
+.fsf_content_toolbar_item span
+{
+    font-size: 80%;
+}
+
+/* content list table */
+.fsf_content_list
+{
+    border-left: 1px solid #e0e0e0;
+    border-top: 1px solid #e0e0e0;
+}
+.fsf_content_list th, .fsf_content_list td
+{
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 2px;
+}
+.fsf_content_form_title
+{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 110%;
+}
+.fsf_content_toolbar_title
+{
+    float: left;
+}
+
+.fsf_content_filter
+{
+    
+}
+.fsf_content_filter_search
+{
+    float: left;
+}
+.fsf_content_filter_item
+{
+    float: right;
+    padding-left: 3px;
+    padding-bottom: 3px;
+}
+
+
+/* ticket group stuff */
+.fsf_group
+{   
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+}
+.fsf_group_inner
+{   
+    border: 1px solid #e0e0e0;
+}
+
+.fsf_groups_exclude img
+{
+    position: relative;
+    top: 3px;
+}
+
+/* Content editing within documents */
+div.fsf_content_edit_article
+{
+    float:right;
+    padding: 1px 1px 1px 1px;
+    border: 1px solid #e0e0e0;
+    margin: 2px;
+    height: 19px;
+}
+
+div.content_edit_unpublished
+{
+    background-color: #FFF0F0;
+}
+
+div.fsf_group_title
+{
+    padding:6px;
+}
+div.fsf_group_desc
+{
+     padding:4px;
+}
+
+
+/* Joomla 3 stuff */
+.fsf_main_j3 img {
+    vertical-align: inherit;
+    max-width: inherit;
+}
+
+.fsf_groups_exclude img {
+    top: -2px !important;
+}
+
+.ticket_type_other
+{
+    border-left: 3px solid #8080ff !important;
+}
+
+.ticket_type_mine
+{
+    border-left: 3px solid #80ff80 !important;    
+}
+
+.ticket_type_unassigned
+{
+    border-left: 3px solid #ff4040 !important;
+}
+
+.ticket_type_container
+{
+    margin-top: 16px !important;
+    margin-bottom: 8px !important;
+    text-align: center;
+}
+
+.ticket_type_display
+{
+    padding: 4px;
+    margin: 4px;
+    border: 1px solid #e0e0e0;
+    display: inline;
+}
+
+div.bbcode ul
+{
+    margin: 0px !important;
+    padding-left: 40px !important;
+}

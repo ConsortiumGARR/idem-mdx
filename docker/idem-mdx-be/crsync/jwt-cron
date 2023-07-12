@@ -1,0 +1,11 @@
+*/5 * * * *	root	/opt/idem_xml_to_jwt/xml_to_json.py -m /opt/pyff/idem/idem-idps.xml -o /opt/idem_xml_to_jwt/idem-prod-eds.json > /opt/idem_xml_to_jwt/xml_to_json.log 2>&1
+
+*/5 * * * *	root	/opt/idem_xml_to_jwt/xml_to_json.py -m /opt/pyff/edugain/edugain-idps.xml -o /opt/idem_xml_to_jwt/edugain2idem-eds.json > /opt/idem_xml_to_jwt/xml_to_json.log 2>&1
+
+*/5 * * * *	root	/opt/idem_xml_to_jwt/xml_to_json.py -m /opt/pyff/idem-test/idem-test-idps.xml -o /opt/idem_xml_to_jwt/idem-test-eds.json > /opt/idem_xml_to_jwt/xml_to_json.log 2>&1
+
+*/5 * * * *	root	/opt/idem_xml_to_jwt/xml_to_json.py -m /opt/pyff/edugain/edugain-idps.xml -o /opt/idem_xml_to_jwt/edugain2idem-eds-nologo.json > /opt/idem_xml_to_jwt/xml_to_json.log 2>&1
+
+*/5 * * * *	root	/opt/idem_xml_to_jwt/createToken.py > /opt/idem_xml_to_jwt/createToken.log 2>&1
+
+#####
