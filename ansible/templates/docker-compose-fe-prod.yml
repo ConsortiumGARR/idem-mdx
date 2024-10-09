@@ -1,16 +1,16 @@
-version: '3.9'
 services:
     nginx:
         image: "gitlab.dir.garr.it:4567/idem/idem-mdx/fe-nginx:{{ nginx_version }}"
         container_name: "{{ fe_containername }}-nginx"
         env_file:
             - ".fe.env"
-        restart: unless-stopped
+        restart: always
         ports: 
-            - "8080:8080"
-            - "8444:8444"
+            - "8080:80"
+            - "8444:443"
         volumes:
             - "/opt/idem-mdq-data:/app/idem-mdq:ro"
+            - "/opt/idem-certbot/:/etc/letsencrypt"
         logging:
           driver: syslog
           options:
@@ -20,7 +20,7 @@ services:
     nginx-exporter:
         image: "nginx/nginx-prometheus-exporter:{{ prometheus_version }}"
         container_name: "{{ fe_containername }}-prometheus"
-        restart: unless-stopped
+        restart: always
         command:
             - "-nginx.scrape-uri=http://{{ ip_cnode }}:8080/status"
         ports:

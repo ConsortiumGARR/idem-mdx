@@ -1,0 +1,11 @@
+markdown-include
+mkdocs
+mkdocs-git-authors-plugin
+mkdocs-git-revision-date-localized-plugin
+mkdocs-markdownextradata-plugin
+mkdocs-material
+mkdocs-material-extensions
+mkdocs-open-in-new-tab
+mkdocs-resize-images
+pygments
+pymdown-extensions

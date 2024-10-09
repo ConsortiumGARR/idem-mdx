@@ -1,52 +1,60 @@
-FROM debian:11
+FROM python:3.11-slim
+LABEL Authors="Mario Di Lorenzo <mario.dilorenzo@garr.it>"
+COPY --from=hairyhenderson/gomplate:v3.11.3 /gomplate /bin/gomplate
 
 ARG be_cert_path
-ARG pyff_cert_name
-ARG pyff_privkey
-ARG mdx_pubkey
+ENV LANG=C.UTF-8
+ENV TZ="UTC"
 
-RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-RUN apt-get -q update && apt-get -y upgrade && apt-get install --no-install-recommends -y \
-    locales python3 python3-venv python3-pip python3-dev build-essential libxml2-dev \
-    libxslt-dev libz-dev swig vim wget ca-certificates openssh-client rsync cron procps
+ENV USER mdx
+ENV PYTHONPATH /opt/python-pyff/bin/
 
-ENV TZ="Europe/Rome"
+RUN groupadd -g 5000 ${USER}
+RUN useradd -u 5000 -g ${USER} -ms /bin/bash ${USER}
 
-RUN pip3 install setuptools
-RUN pip3 install --upgrade pip
-# PyFF versions: STABLE 1.1.5, LATEST 2.0.0
-RUN pip3 install pyFF==1.1.5
-RUN pip3 install --upgrade pipdeptree pykcs11
-RUN pipdeptree
- 
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    locales libxml2-dev libxslt-dev libz-dev swig wget ca-certificates g++ vim \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p \
+    /var/run/pyff \
+    /opt/python-pyff \
+    /pyff-data \
+    /pyff-data/certs \
+    /pyff-data/idem \
+    /pyff-data/edugain \
+    /pyff-data/idem-test \
+    /pyff-data/idem/entities \
+    /pyff-data/edugain/entities \
+    /pyff-data/idem-test/entities
+RUN chown -R ${USER}:${USER} /var/run/pyff /opt/python-pyff /pyff-data
+
+USER ${USER}
+
+RUN python3 -m venv /opt/python-pyff
+RUN ${PYTHONPATH}pip install --upgrade pip
+RUN ${PYTHONPATH}pip install --upgrade setuptools pipdeptree pykcs11
+
+# Pyff performances drop drastically with cryptography >= 42.x.x
+RUN ${PYTHONPATH}pip install cryptography==41.0.7
+# Version 5.1.0 of lxml sometimes produce an error in schema validation
+RUN ${PYTHONPATH}pip install lxml==5.0.1
+RUN ${PYTHONPATH}pip install --upgrade pyFF
+
 ENV LOGLEVEL INFO
 ENV PIPELINE mdx-batch.fd
-ENV DATADIR /opt/pyff
+ENV DATADIR /pyff-data
 
 # Add Certificate and ssh keys
-COPY ${be_cert_path} /certs
-ENV MDX_CERTNAME /certs/${pyff_cert_name}
-ENV MDX_PUBKEY /certs/${mdx_pubkey}
+COPY --chown=${USER}:${USER} ${be_cert_path} /certs
 
 # Copy pipelines for PyFF
-COPY docker/idem-mdx-be/pyff/mdx-batch.fd /mdx-batch.fd
-COPY docker/idem-mdx-be/pyff/idem-prod-batch.fd /opt/pyff/idem-prod-batch.fd
-COPY docker/idem-mdx-be/pyff/edugain-batch.fd /opt/pyff/edugain-batch.fd
-COPY docker/idem-mdx-be/pyff/idem-test-batch.fd /opt/pyff/idem-test-batch.fd
-COPY docker/idem-mdx-be/pyff/prod-and-test-batch.fd /opt/pyff/prod-and-test-batch.fd
+COPY --chown=${USER}:${USER} docker/idem-mdx-be/pyff/pipelines /pipelines
+COPY docker/idem-mdx-be/pyff/xslt/idem.xsl /xslt/idem.xsl
 
-RUN sed -i "s/pyff_certname/${pyff_cert_name}/g" /mdx-batch.fd
-RUN sed -i "s/pyff_certname/${pyff_cert_name}/g" /opt/pyff/idem-prod-batch.fd
-RUN sed -i "s/pyff_certname/${pyff_cert_name}/g" /opt/pyff/edugain-batch.fd
-RUN sed -i "s/pyff_certname/${pyff_cert_name}/g" /opt/pyff/idem-test-batch.fd
-RUN sed -i "s/pyff_certname/${pyff_cert_name}/g" /opt/pyff/prod-and-test-batch.fd
-
-RUN sed -i "s/pyff_privkey/${pyff_privkey}/g" /mdx-batch.fd
-RUN sed -i "s/pyff_privkey/${pyff_privkey}/g" /opt/pyff/idem-prod-batch.fd
-RUN sed -i "s/pyff_privkey/${pyff_privkey}/g" /opt/pyff/edugain-batch.fd
-RUN sed -i "s/pyff_privkey/${pyff_privkey}/g" /opt/pyff/idem-test-batch.fd
-RUN sed -i "s/pyff_privkey/${pyff_privkey}/g" /opt/pyff/prod-and-test-batch.fd
-
-COPY docker/idem-mdx-be/pyff/start.sh /start.sh
+COPY --chown=${USER}:${USER} docker/idem-mdx-be/pyff/start.sh /start.sh
 RUN chmod a+x /start.sh
+ENV PATH "${PYTHONPATH}:${PATH}"
+WORKDIR ${DATADIR}
 CMD ["/start.sh"]

@@ -37,7 +37,7 @@ protocol and a SAML profile. Both specifitions are currently IETF drafts:
 Proposed Architecture
 ========================
 
-.. image:: files/project-docs/img/IDEM-MDX-architecture.svg
+.. image:: images/IDEM-MDX-architecture.svg
 
 Development Instructions
 =========================

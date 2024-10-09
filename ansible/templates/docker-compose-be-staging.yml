@@ -1,4 +1,3 @@
-version: '3.9'
 services:
     pyff:
         image: "gitlab.dir.garr.it:4567/idem/idem-mdx/be-pyff:{{ pyff_version }}"
@@ -6,9 +5,9 @@ services:
         hostname: idem-mdx-pyff
         env_file:
             - ".be.env"
-        restart: unless-stopped
+        restart: always
         volumes:
-            - "idem-mdq:/opt/pyff"
+            - "idem-mdq:/pyff-data"
     crsync:
         image: "gitlab.dir.garr.it:4567/idem/idem-mdx/be-crsync:{{ cr_version }}"
         container_name: "{{ be_containername }}-crsync"

@@ -1,0 +1,298 @@
+# Shibboleth EDS
+
+DOC: <https://shibboleth.atlassian.net/wiki/spaces/EDS10/overview>
+
+#### 1. Setup cartella
+
+Crea una cartella per ricavare il file JSON dal JSON Web Token (JWT) fornito dalla federazione
+
+``` bash
+sudo mkdir /opt/idem_jwt_to_json
+```
+
+#### 2. Scaricare la chiave pubblica di IDEM
+
+Scarica la chiave pubblica necessaria per la decodifica:
+
+``` bash
+sudo wget "https://mdx.idem.garr.it/idem-mdx-service-pubkey.pem" -O /opt/idem_jwt_to_json/idem-mdx-service-pubkey.pem
+```
+
+e controllane la validità:
+
+- SHA1:
+
+    ``` bash
+    sudo openssl rsa -pubin -in /opt/idem_jwt_to_json/idem-mdx-service-pubkey.pem -pubout -outform DER | openssl sha1 -c
+    ```
+
+    deve restituire:
+
+    `((stdin)= 30:75:93:37:d0:05:55:19:9f:76:e1:5a:73:db:45:7f:5e:66:11:4b)`
+
+- MD5:
+
+    ``` bash
+    sudo openssl rsa -pubin -in /opt/idem_jwt_to_json/idem-mdx-service-pubkey.pem -pubout -outform DER | openssl md5 -c
+    ```
+
+    deve restituire:
+
+    `((stdin)= 84:5f:69:99:c5:f6:bb:e6:5f:ff:32:39:9a:a6:bb:85)`
+
+#### 3. Installazione moduli Python necessari per la decodifica
+
+- Python >= 3.9:
+
+    - `sudo apt-get install python3-pip`
+
+    - `sudo pip install pyjwt pyjwt[crypto] pem requests`
+
+- Python >= 3.11:
+
+    - `sudo apt-get install python3-jwt python3-requests python3-pem`
+
+#### 4. Scaricare il file per la decodifica del JWT
+
+Scarica il file `decodeToken.py` nella cartella `/opt/idem_jwt_to_json`:
+
+- `cd /opt/idem_jwt_to_json`
+
+- `sudo wget https://mdx.idem.garr.it/decodeToken.py`
+
+- `sudo chmod +x decodeToken.py`
+
+che contiene il seguente blocco di codice:
+
+``` bash
+#!/usr/bin/env python3
+
+import jwt
+import json
+import pem
+import sys, getopt
+import requests
+
+def main(argv):
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], 'j:o:k:hd', ['jwt=','output=','publickey=','help','debug' ])
+    except getopt.GetoptError as err:
+        print (str(err))
+        print ("Usage: ./decodeToken.py -j <jwt_inputurl> -o <output_path> -k <publickey_path>")
+        print ("The JSON file will be put in the output directory")
+        sys.exit(2)
+
+    inputurl = None
+    outputpath = None
+    publickey = None
+
+    for opt, arg in opts:
+        if opt in ('-h', '--help'):
+            print ("Usage: ./decodeToken.py -j <jwt_inputurl> -o <output_path> -k <publickey_path>")
+            print ("The JSON file will be put in the output directory")
+            sys.exit()
+        elif opt in ('-j', '--jwt'):
+            inputurl = arg
+        elif opt in ('-o', '--output'):
+            outputpath = arg
+        elif opt in ('-k', '--publickey'):
+            publickey = arg
+        elif opt == '-d':
+            global _debug
+            _debug = 1
+        else:
+            print ("Usage: ./decodeToken.py -j <jwt_inputurl> -o <output_path> -k <publickey_path>")
+            print ("The JSON file will be put in the output directory")
+            sys.exit()
+
+    if inputurl == None:
+        print ("Token file is missing!n")
+        print ("Usage: ./decodeToken.py -j <jwt_inputurl> -o <output_path> -k <publickey_path>")
+        sys.exit()
+
+    if outputpath == None:
+        print ("Output path is missing!n")
+        print ("Usage: ./decodeToken.py -j <jwt_inputurl> -o <output_path> -k <publickey_path>")
+        sys.exit()
+
+    if publickey == None:
+        print ("Public Key path is missing!n")
+        print ("Usage: ./decodeToken.py -j <jwt_inputurl> -o <output_path> -k <publickey_path>")
+        sys.exit()
+
+    with open(publickey, 'r') as rsa_pubkey:
+        pubkey = rsa_pubkey.read()
+
+    jwt_token = requests.get(inputurl, allow_redirects=True)
+    token = jwt_token.content
+    decode = jwt.decode(token, pubkey, algorithms=["RS256"])
+
+    x = decode["data"]
+    json_decoded = json.dumps(x, indent = 4, ensure_ascii=False)
+
+    result_path = open(outputpath, "w", encoding="utf-8")
+    result_path.write(json_decoded)
+    result_path.close()
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
+```
+
+#### 5. **[OPZIONALE]** Creazione di un JSON custom
+
+5.1. Scarica il file `eds-filter.py` nella cartella
+`/opt/idem_jwt_to_json`:
+
+- `cd /opt/idem_jwt_to_json`
+
+- `sudo wget https://mdx.idem.garr.it/eds-filter.py`
+
+- `sudo chmod +x eds-filter.py`
+
+che contiene il seguente blocco di codice:
+
+``` bash
+#!/usr/bin/env python3
+
+import json
+import getopt
+import sys
+
+def main(argv):
+    input_file = ''
+    output_file = ''
+    entity_ids_file = ''
+
+    try:
+        opts, args = getopt.getopt(argv, "hi:o:e:", ["input=", "output=", "entityids="])
+    except getopt.GetoptError:
+        print('Usage: filter_json.py -i <input_file> -o <output_file> -e <entity_ids_file>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print('Usage: filter_json.py -i <input_file> -o <output_file> -e <entity_ids_file>')
+            sys.exit()
+        elif opt in ("-i", "--input"):
+            input_file = arg
+        elif opt in ("-o", "--output"):
+            output_file = arg
+        elif opt in ("-e", "--entityids"):
+            entity_ids_file = arg
+
+    if not input_file or not output_file or not entity_ids_file:
+        print('Usage: filter_json.py -i <input_file> -o <output_file> -e <entity_ids_file>')
+        sys.exit(2)
+
+    # Leggi gli entityID dal file di testo
+    with open(entity_ids_file, 'r', encoding='utf-8') as f:
+        entity_ids_to_keep = [line.strip() for line in f]
+
+    # Leggi il file JSON
+    with open(input_file, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    # Filtra le entry mantenendo solo quelle con entityID presenti nella lista
+    filtered_data = [entry for entry in data if entry['entityID'] in entity_ids_to_keep]
+
+    # Scrivi i dati filtrati in un nuovo file JSON
+    with open(output_file, 'w', encoding='utf-8') as file:
+        json.dump(filtered_data, file, ensure_ascii=False, indent=4)
+
+    print(f"Il file JSON è stato filtrato e salvato come '{output_file}'")
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
+```
+
+5.2. Crea un file `entity_ids.txt` nella cartella
+`/opt/idem_jwt_to_json` contenente la lista degli entityID delle
+organizzazioni che si vogliono filtrare. Ad esempio:
+
+``` bash
+https://idp.example.01.it/idp/shibboleth
+https://idp.example.02.it/idp/shibboleth
+http://idp.example.03.it/simplesaml/saml2/idp/metadata.php
+```
+
+#### 6. Creazione cronjob per aggiornare i file JSON
+
+Crea il file `eds-refresh`:
+
+``` bash
+vim /etc/cron.d/eds-refresh
+```
+
+e aggiungi uno o più jobs, dipendentemente dal flusso di Metadata e
+dalla `DocumentRoot` utilizzati (default: `/var/www/html`):
+
+- Federazione IDEM di Produzione **(completo)**:
+
+    ``` bash
+    */30 * * * *   /opt/idem_jwt_to_json/decodeToken.py -j https://mdx.idem.garr.it/idem-token -o /var/www/html/idem-eds.json -k /opt/idem_jwt_to_json/idem-mdx-service-pubkey.pem > /opt/idem_jwt_to_json/jwt_to_json.log 2>&1 
+    ```
+
+- Interfederazione eduGAIN + IDEM **(completo)**:
+
+    ``` bash
+    */30 * * * *   /opt/idem_jwt_to_json/decodeToken.py -j https://mdx.idem.garr.it/edugain2idem-token -o /var/www/html/edugain2idem-eds.json -k /opt/idem_jwt_to_json/idem-mdx-service-pubkey.pem > /opt/idem_jwt_to_json/jwt_to_json.log 2>&1 
+    ```
+
+    versione senza loghi **(completo)**:
+
+    ``` bash
+    */30 * * * *   /opt/idem_jwt_to_json/decodeToken.py -j https://mdx.idem.garr.it/edugain2idem-token-nologo -o /var/www/html/edugain2idem-eds-nologo.json -k /opt/idem_jwt_to_json/idem-mdx-service-pubkey.pem > /opt/idem_jwt_to_json/jwt_to_json.log 2>&1
+    ```
+
+- Federazione IDEM di Test **(completo)**:
+
+    ``` bash
+    */30 * * * *   /opt/idem_jwt_to_json/decodeToken.py -j https://mdx.idem.garr.it/idem-test-token -o /var/www/html/idem-test-eds.json -k /opt/idem_jwt_to_json/idem-mdx-service-pubkey.pem > /opt/idem_jwt_to_json/jwt_to_json.log 2>&1
+    ```
+
+- Federazione IDEM di Produzione **(custom)**:
+
+    ``` bash
+    */30 * * * *   /opt/idem_jwt_to_json/decodeToken.py -j https://mdx.idem.garr.it/idem-token -o /opt/idem_jwt_to_json/idem-eds.json -k /opt/idem_jwt_to_json/idem-mdx-service-pubkey.pem > /opt/idem_jwt_to_json/jwt_to_json.log 2>&1 
+
+    */30 * * * *   /opt/idem_jwt_to_json/eds-filter.py -i /opt/idem_jwt_to_json/idem-eds.json -o /var/www/html/custom-eds.json -e /opt/idem_jwt_to_json/entity_ids.txt > /opt/idem_jwt_to_json/eds-filter.log 2>&1 
+    ```
+
+- Interfederazione eduGAIN + IDEM **(custom)**:
+
+    ``` bash
+    */30 * * * *   /opt/idem_jwt_to_json/decodeToken.py -j https://mdx.idem.garr.it/edugain2idem-token -o /opt/idem_jwt_to_json/edugain2idem-eds.json -k /opt/idem_jwt_to_json/idem-mdx-service-pubkey.pem > /opt/idem_jwt_to_json/jwt_to_json.log 2>&1 
+
+    */30 * * * *   /opt/idem_jwt_to_json/eds-filter.py -i /opt/idem_jwt_to_json/edugain2idem-eds.json -o /var/www/html/custom-eds.json -e /opt/idem_jwt_to_json/entity_ids.txt > /opt/idem_jwt_to_json/eds-filter.log 2>&1 
+    ```
+
+- Federazione IDEM di Test **(custom)**:
+
+    ``` bash
+    */30 * * * *   /opt/idem_jwt_to_json/decodeToken.py -j https://mdx.idem.garr.it/idem-test-token -o /opt/idem_jwt_to_json/idem-test-eds.json -k /opt/idem_jwt_to_json/idem-mdx-service-pubkey.pem > /opt/idem_jwt_to_json/jwt_to_json.log 2>&1
+
+    */30 * * * *   /opt/idem_jwt_to_json/eds-filter.py -i /opt/idem_jwt_to_json/idem-test-eds.json -o /var/www/html/custom-eds.json -e /opt/idem_jwt_to_json/entity_ids.txt > /opt/idem_jwt_to_json/eds-filter.log 2>&1 
+    ```
+
+#### 7. Configura l'EDS
+
+Modifica la configurazione di EDS:
+
+``` bash
+sudo vim /etc/shibboleth-ds/idpselect_config.js
+```
+
+cambiando il valore di `this.dataSource` con il valore opportuno scelto fra:
+
+- Federazione IDEM di Test: `/idem-test-eds.json`
+- Federatione IDEM: `/idem-eds.json`
+- Interfederazione IDEM + eduGAIN: `/edugain2idem-eds.json`
+- Custom JSON: `/custom-eds.json`
+
+**Attenzione**: Il valore `this.dataSource` corrisponde alla URL della sorgente di
+dati del Discovery Service che contiene tutti gli IdP. Questa
+sorgente **DEVE** essere esposta dal web server del DS e, quindi,
+del Service Provider in cui viene integrato. <br> All'interno di
+`this.dataSource` è possibile omettere sia il protocollo che la
+parte host del'URL (`https://example.org`). La sorgente di dati è
+un file JSON secondo lo schema definito in
+[EDSDetails](https://shibboleth.atlassian.net/wiki/spaces/DEV/pages/1120895097/EDSDetails)

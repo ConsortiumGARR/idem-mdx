@@ -1,6 +1,9 @@
 .vagrant
 .vscode
 
+# vault
+.vault_pass.txt
+
 # emacs
 *~
 \#*\#

@@ -1,4 +1,3 @@
-version: '3.9'
 services:
     nginx:
         image: "gitlab.dir.garr.it:4567/idem/idem-mdx/fe-nginx:{{ nginx_version }}"
@@ -6,9 +5,10 @@ services:
         hostname: idem-mdx-nginx
         env_file:
             - ".fe.env"
-        restart: unless-stopped
+        restart: always
         ports: 
-            - "8080:8080"
-            - "8444:8444"
+            - "80:80"
+            - "443:443"
         volumes:
             - "/opt/idem-mdq-data:/app/idem-mdq:ro"
+            - "/opt/idem-certbot/:/etc/letsencrypt"

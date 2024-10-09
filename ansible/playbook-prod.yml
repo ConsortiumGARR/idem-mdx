@@ -1,94 +1,58 @@
 - name: Deployment IDEM-MDX - BE Production
   hosts: 
-    - <INSERT_HOSTS>
+    - ba1-r2
   become: yes
   become_method: sudo
   remote_user: debian 
   roles:
     - requirements
     - setup
+  vars_files:
+    - idem-mdx-inventories/prod/secrets/prod.yml
   tasks:
-    - name: Prune unused volumes
-      ansible.builtin.shell: "echo y | docker volume prune"
-    
     - name: Run BackEnd image
       ansible.builtin.shell: "docker compose up -d"
       args:
         chdir: "/opt/{{ be_folder }}"
       tags: [docker-be]
-
-    - name: Decipher private key - PYFF
-      community.docker.docker_container_exec: 
-        container: "{{ be_containername }}-pyff" 
-        command: "openssl rsa -in /certs/{{ mdx_encrypted_key }} --passin pass:{{ pyff_passphrase }} -out /certs/{{ mdx_priv_key }}"
-      notify: restart-pyff
-      tags: [docker-be]
-
-    - name: Decipher private key - CRON_RSYNC
-      community.docker.docker_container_exec: 
-        container: "{{ be_containername }}-crsync"
-        command: "openssl rsa -in /opt/idem_xml_to_jwt/{{ mdx_encrypted_key }} --passin pass:{{ pyff_passphrase }} -out /opt/idem_xml_to_jwt/{{ mdx_priv_key }}"
-      tags: [docker-be]
   
     - name: Copy pubkey to host
       ansible.builtin.shell: "docker cp {{ be_containername }}-crsync:/ssh/mdqsync-key.pub /home/mdqsync/.ssh/mdqsync.pub"
       tags: [docker-be]
-   
-    ### Moved to Front end part ###
-    #- name: Add pubkey to authorized keys
-    #  ansible.builtin.shell: "cat /home/mdqsync/.ssh/mdqsync.pub >> /home/mdqsync/.ssh/authorized_keys"
-    #  tags: [docker-be]
 
     - name: Grab pubkey from remote container
       ansible.builtin.fetch:
         src: /home/mdqsync/.ssh/mdqsync.pub
         dest: ./pubkey
         flat: true
+      tags: [always]
 
-  handlers:
-    - name: Restart Pyff container
-      ansible.builtin.shell: "docker restart {{ be_containername }}-pyff"
-      listen: restart-pyff
 
 - name: Deployment IDEM-MDX - FE Production
   hosts: 
-    - <INSERT_HOSTS>
+    - remote_hosts
   become: yes
   become_method: sudo
   remote_user: debian 
   roles:
     - requirements
     - setup
+  vars_files:
+    - idem-mdx-inventories/prod/secrets/prod.yml
   tasks:
-    - name: Prune unused volumes
-      ansible.builtin.shell: "echo y | docker volume prune"
-      tags: [docker-fe]
-
     - name: Run FrontEnd image
       ansible.builtin.shell: "docker compose up -d"
       args:
         chdir: "/opt/{{ fe_folder }}"
       tags: [docker-fe]
 
-    - name: Decipher private key - NGINX
-      community.docker.docker_container_exec: 
-        container: "{{ fe_containername }}-nginx" 
-        command: "openssl rsa -in /etc/nginx/certs/{{ nginx_encrypted_key }} --passin pass:{{ nginx_passphrase }} -out /etc/nginx/certs/{{ nginx_priv_key }}"
-      notify: restart-nginx
-      tags: [docker-fe]
-
     - name: Copy the pubkey to all hosts
       ansible.builtin.copy:
         src: ./pubkey
         dest: /home/mdqsync/.ssh/mdqsync.pub
-      tags: [docker-fe]
+      tags: [always]
 
     - name: Add pubkey to authorized keys
       ansible.builtin.shell: "cat /home/mdqsync/.ssh/mdqsync.pub >> /home/mdqsync/.ssh/authorized_keys"
-      tags: [docker-fe]
+      tags: [always]
 
-
-  handlers:
-    - name: Restart NGINX container
-      ansible.builtin.shell: "docker restart {{ fe_containername }}-nginx"
-      listen: restart-nginx

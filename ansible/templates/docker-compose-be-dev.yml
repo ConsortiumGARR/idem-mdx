@@ -1,13 +1,12 @@
-version: '3.9'
 services:
     pyff:
         image: "{{ image_prefix }}pyff:{{ pyff_version }}"
         container_name: "{{ be_containername }}-pyff"
         env_file:
             - ".be.env"
-        restart: unless-stopped
+        restart: always
         volumes:
-            - "idem-mdq:/opt/pyff"
+            - "idem-mdq:/pyff-data"
     crsync:
         image: "{{ image_prefix }}crsync:{{ cr_version }}"
         container_name: "{{ be_containername }}-crsync"

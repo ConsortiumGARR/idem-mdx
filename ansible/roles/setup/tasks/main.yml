@@ -13,38 +13,38 @@
     recurse: yes
   tags: [docker-be, docker-fe]
 
-- name: Create deployment folders
+- name: Create BE deployment folders
+  ansible.builtin.file:
+    path: /opt/idem-mdx-be
+    state: directory
+    recurse: yes
+  tags: [docker-be]
+
+- name: Create FE deployment folder
   ansible.builtin.file:
     path: "/opt/{{ item }}"
     state: directory
-    recurse: yes
-  loop:
-    - idem-mdx-be
-    - idem-mdx-fe
-  tags: [docker-be, docker-fe]
-
-- name: Create deployment folder
-  ansible.builtin.file:
-    path: /opt/idem-mdq-data
-    state: directory
     mode: '0777'
     recurse: yes
-  tags: [docker-be, docker-fe]
-
-- name: Copy .env from template
-  ansible.builtin.template:
-    src: ".{{ item['src'] }}.env"
-    dest: "/opt/{{ item['dest'] }}/.{{ item['src'] }}.env"
   loop:
-    - { src: be, dest: idem-mdx-be }
-    - { src: fe, dest: idem-mdx-fe }
-  tags: [docker-be, docker-fe]
+    - idem-mdx-fe
+    - idem-mdq-data
+  tags: [docker-fe]
 
-- name: Copy docker-compose.yml file from template
+- name: Copy BE files from template
   ansible.builtin.template:
     src: "{{ item['src'] }}"
-    dest: "/opt/{{ item['dest'] }}/docker-compose.yml"
+    dest: "/opt/idem-mdx-be/{{ item['dest'] }}"
   loop:
-    - { src: "docker-compose-be-{{ deploy_type }}.yml", dest: idem-mdx-be }
-    - { src: "docker-compose-fe-{{ deploy_type }}.yml", dest: idem-mdx-fe }
-  tags: [docker-be, docker-fe]
+    - { src: .be.env, dest: .be.env }
+    - { src: "docker-compose-be-{{ deploy_type }}.yml", dest: docker-compose.yml }
+  tags: [docker-be]
+
+- name: Copy FE files from template
+  ansible.builtin.template:
+    src: "{{ item['src'] }}"
+    dest: "/opt/idem-mdx-fe/{{ item['dest'] }}"
+  loop:
+    - { src: .fe.env, dest: .fe.env }
+    - { src: "docker-compose-fe-{{ deploy_type }}.yml", dest: docker-compose.yml }
+  tags: [docker-fe]

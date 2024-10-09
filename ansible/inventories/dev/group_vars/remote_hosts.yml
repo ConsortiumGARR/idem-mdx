@@ -29,8 +29,7 @@ rsync_host3_NAME:
 #FE
 nginx_version: dev #INSERT NGINX VERSION
 nginx_loglevel: info
-nginx_certname: mdx-dev.crt
-nginx_keyname: mdx-dev.key
+mdx_fe_certs: fe-dev
 servername: localhost 
 
 # FOLDER NAME

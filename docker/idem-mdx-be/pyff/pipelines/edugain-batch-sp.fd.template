@@ -1,0 +1,31 @@
+- when sign:
+    - finalize:
+        cacheDuration: PT1H
+        validUntil: PT48H
+    - sign:
+        key: /certs/{{ .Env.MDX_KEY }}
+        cert: /certs/{{ .Env.MDX_CERT }}
+
+- when batch:
+    - load:
+        - http://md.idem.garr.it/metadata/edugain2idem-metadata-sha256.xml 0E:21:81:8E:06:02:D1:D9:D1:CF:3D:4C:41:ED:5F:F3:43:70:16:79 as EDUGAIN
+
+    - select:
+        - "EDUGAIN!//md:EntityDescriptor[md:SPSSODescriptor]"
+    - map:
+        - log_entity:
+        - fork:
+            - xslt:
+                stylesheet: pubinfo.xsl
+                publisher: "http://www.idem.garr.it/"
+            - xslt:
+                stylesheet: /xslt/idem.xsl
+                Name: "urn:mace:garr.it:idem-edugain"
+            - then sign:
+            - publish:
+                output: ./edugain/entities
+                hash_link: true
+                urlencode_filenames: true
+                update_store: false
+            - break
+    - stats

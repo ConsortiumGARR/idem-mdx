@@ -1,0 +1,171 @@
+worker_processes 1;
+
+pid /var/run/nginx.pid;
+
+events { worker_connections 1024; }
+
+http {
+    include mime.types;
+    sendfile on;
+
+server {
+    listen 80;
+    server_name {{ .Env.NGINX_SERVERNAME }};
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+
+    # Prometheus settings
+    location /status {
+        stub_status;
+	allow 127.0.0.1/32;
+	allow 192.168.17.0/24;
+    }
+
+}
+
+server {
+    listen 443 ssl;
+    server_name {{ .Env.NGINX_SERVERNAME }};
+    ssl_certificate     /etc/letsencrypt/live/{{ .Env.NGINX_CERT }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ .Env.NGINX_CERT }}/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;
+        
+    access_log /dev/stdout;
+    error_log /dev/stdout {{ .Env.NGINX_LOGLEVEL }};
+
+    root /app/idem-mdq;
+
+    location / {
+        root   /docs/site/it;
+        index  index.html;
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /en {
+        alias   /docs/site/en;
+        index  index.html;
+    }
+
+    location /it {
+        alias   /docs/site/it;
+        index  index.html;
+    }
+
+    location = /decodeToken.py {
+        alias /app/scripts/decodeToken.py;
+        types { } default_type 'application/octet-stream';
+    }
+
+    location = /eds-filter.py {
+        alias /app/scripts/eds-filter.py;
+        types { } default_type 'application/octet-stream';
+    }
+
+    location = /json_to_php_converter.php {
+        alias /app/scripts/json_to_php_converter.php;
+        types { } default_type 'application/octet-stream';
+    }
+
+    location = /idem-mdx-service-crt.pem {
+        alias /app/idem-mdq/certs/idem-mdx-service-crt.pem;
+        types { } default_type 'application/x-pem-file';
+    }
+
+    location = /idem-mdx-service-pubkey.pem {
+        alias /app/idem-mdq/certs/idem-mdx-service-pubkey.pem;
+        types { } default_type 'application/x-pem-file';
+    }
+
+    location = /idem/entities {
+	alias /app/idem-mdq/idem/idem-mda.xml;
+	types { } default_type 'application/samlmetadata+xml';
+    }
+
+    location = /idem-idps.xml {
+        alias /app/idem-mdq/idem/idem-idps.xml;
+        types { } default_type 'application/samlmetadata+xml';
+    }
+
+    location /idem/entities {
+	try_files $request_uri.xml @shibidp-request;
+	types { } default_type 'application/samlmetadata+xml';
+    }
+
+    location = /idem-token {
+	alias /app/idem-mdq/idem/idem-token;
+	types { } default_type 'application/text';
+    }
+
+    location = /edugain/entities {
+        alias /app/idem-mdq/edugain/edugain-mda.xml;
+        types { } default_type 'application/samlmetadata+xml';
+    }
+
+    location = /edugain-idps.xml {
+        alias /app/idem-mdq/edugain/edugain-idps.xml;
+        types { } default_type 'application/samlmetadata+xml';
+    }
+
+    location /edugain/entities {
+        try_files $request_uri.xml @shibidp-request;
+        types { } default_type 'application/samlmetadata+xml';
+    }
+
+    location = /edugain2idem-token {
+	alias /app/idem-mdq/edugain/edugain2idem-token;
+	types { } default_type 'application/text';
+    }
+
+    location = /edugain2idem-token-nologo {
+	alias /app/idem-mdq/edugain/edugain2idem-token-nologo;
+	types { } default_type 'application/text';
+    }
+
+    location = /idem-test/entities {
+	alias /app/idem-mdq/idem-test/idem-test-mda.xml;
+	types { } default_type 'application/samlmetadata+xml';
+    }
+
+    location = /idem-test-idps.xml {
+        alias /app/idem-mdq/idem-test/idem-test-idps.xml;
+        types { } default_type 'application/samlmetadata+xml';
+    }
+
+    location = /idem-prod-and-test-idps.xml {
+        alias /app/idem-mdq/idem-prod-and-test-idps.xml;  
+        types { } default_type 'application/samlmetadata+xml';
+    }
+
+    location /idem-test/entities {
+	try_files $request_uri.xml @shibidp-request;
+	types { } default_type 'application/samlmetadata+xml';
+    }
+
+    location = /idem-test-token {
+	alias /app/idem-mdq/idem-test/idem-test-token;
+	types { } default_type 'application/text';
+    }
+
+    location @shibidp-request {
+	rewrite ^ $request_uri;
+	rewrite ^(.*)(:)(.*)$ $1%3A$3;
+	rewrite ^(.*)(:)(.*)$ $1%3A$3;
+	rewrite ^(.*)(:)(.*)$ $1%3A$3;
+	rewrite ^(.*)(:)(.*)$ $1%3A$3;
+	rewrite ^(.*)(:)(.*)$ $1%3A$3;
+	rewrite ^(.*)(:)(.*)$ $1%3A$3;
+	rewrite ^(.*)(:)(.*)$ $1%3A$3;
+	rewrite ^(.*)(:)(.*)$ $1%3A$3;
+	rewrite ^(.*)(:)(.*)$ $1%3A$3;
+	rewrite ^(.*)(:)(.*)$ $1%3A$3;
+	rewrite ^(.*)$ $1.xml break;
+	types { } default_type 'application/samlmetadata+xml';
+	return 404;
+    }
+}
+
+}
+
